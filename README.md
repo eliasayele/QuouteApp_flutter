@@ -1,4 +1,4 @@
-# life_hacks
+# Quote
 
 A new Flutter project.
 
