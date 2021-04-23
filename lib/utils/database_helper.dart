@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:life_hacks/models/Quotes.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+// import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = new DatabaseHelper.internal();
@@ -23,6 +24,7 @@ class DatabaseHelper {
     if (_db != null) {
       return _db;
     }
+    print("database created");
     _db = await initDb();
 
     return _db;
@@ -41,6 +43,7 @@ class DatabaseHelper {
   void _onCreate(Database db, int newVersion) async {
     await db.execute(
         'CREATE TABLE $quoteTable($ownerId INTEGER PRIMARY KEY, $owner TEXT, $quote TEXT)');
+    print("database created");
   }
 
   Future saveQuote(Quotes quote) async {

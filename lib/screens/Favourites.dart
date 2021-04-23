@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:life_hacks/models/Quotes.dart';
-import 'package:life_hacks/utils/database_helper.dart';
+import 'package:flutter/services.dart';
+import 'package:life_hacks/models/Persons.dart';
+import 'package:life_hacks/providers/Providers.dart';
+import 'package:provider/provider.dart';
 
 class Favourites extends StatefulWidget {
   @override
@@ -9,56 +13,91 @@ class Favourites extends StatefulWidget {
 
 class _FavouritesState extends State<Favourites> {
   List? quotes;
-  DatabaseHelper db = new DatabaseHelper();
+  // DatabaseHelper db = new DatabaseHelper();
   // ignore: missing_return
+  Future<String?> loadJsonData() async {
+    var jsonText = await rootBundle.loadString('json/quotes.json');
+    setState(() => quotes = json.decode(jsonText));
+  }
 
   @override
   void initState() {
     super.initState();
-    db.getAllQuotes().then((quotes) {
-      setState(() {
-        quotes.forEach((quotes) {
-          quotes.add(Quotes.fromMap(quotes));
-        });
-      });
-    });
+    this.loadJsonData();
+    // db.getAllQuotes().then((quotes) {
+    //   setState(() {
+    //     quotes.forEach((quotes) {
+    //       quotes.add(Quotes.fromMap(quotes));
+    //     });
+    //   });
+    // });
   }
 
+  List images = [
+    "images/p1.jpg",
+    "images/p2.jpg",
+    "images/p3.jpg",
+    "images/p4.jpg",
+    "images/p5.jpeg",
+    "images/p6.jpg",
+  ];
+  int ind = 0;
   @override
   Widget build(BuildContext context) {
-    // var quotes = Provider.of<AppData>(context);
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        child: ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10.0),
-            shrinkWrap: true,
-            itemCount: quotes!.length,
-            itemBuilder: (context, index) {
-              return Container(
-                  height: 170,
-                  decoration: BoxDecoration(
-                      color: Colors.black45.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(6)),
-                  child: quotes!.length > 0
-                      ? Column(
-                          children: [
-                            Text(
-                              ' "${quotes![index].owner}" ',
-                              style: TextStyle(
-                                  fontFamily: "Proxima Nova",
-                                  fontSize: 15,
-                                  color: Colors.black,
-                                  //Theme.of(context).accentColor,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text('${quotes![index].quote}'),
-                          ],
-                        )
-                      : Text("No Fav Quote's Found"));
-            }),
+    var quotess = Provider.of<AppData>(context);
+    var person = Provider.of<Person>(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Quote's",
+              style: TextStyle(fontSize: 40),
+            ),
+            Text("World", style: TextStyle(fontSize: 40, color: Colors.red)),
+          ],
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          child: ListView.builder(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10.0),
+              shrinkWrap: true,
+              itemCount: quotes!.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    height: 170,
+                    decoration: BoxDecoration(
+                        image: new DecorationImage(
+                          fit: BoxFit.fill,
+                          image: AssetImage('${images[quotess.getInd]}'),
+                        ),
+                        color: Colors.white.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(6)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Wrap(children: [
+                          Text(' \" ${quotes![index]['text']} \" ',
+                              style: Theme.of(context).textTheme.headline6),
+                        ]),
+                      ),
+                    ),
+                    // : Text("No Fav Quote's Found"));
+                  ),
+                );
+              }),
+        ),
       ),
     );
+    // );
   }
 }
 

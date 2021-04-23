@@ -100,8 +100,12 @@ class _HomeState extends State<Home> {
           ],
         ),
         actions: [
-          IconButton(icon: Icon(Icons.settings), onPressed: () {Navigator.push(context,
-        MaterialPageRoute(builder: (context) => Favourites()));}),
+          IconButton(
+              icon: Icon(Icons.all_inclusive),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Favourites()));
+              }),
         ],
       ),
       body: QuoteOwnersList(),

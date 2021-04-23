@@ -38,7 +38,7 @@ class _ProfileCardState extends State<ProfileCard> {
   @override
   Widget build(BuildContext context) {
     var person = Provider.of<Person>(context);
-    //var person = Provider.of<Person>(context);
+    var appdata = Provider.of<AppData>(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -86,35 +86,26 @@ class _ProfileCardState extends State<ProfileCard> {
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Consumer<Person>(
-                              builder: (_, a, child) {
-                                return Text(
-                                  person.getName!,
-                                  style: TextStyle(
-                                      fontFamily: "Proxima Nova Bold",
-                                      fontSize: 25,
-                                      color: Colors.black,
-                                      //color: Theme.of(context).accentColor,
-                                      fontWeight: FontWeight.bold),
-                                );
-                              },
+                            Text(
+                              person.getName!,
+                              style: TextStyle(
+                                  fontFamily: "Proxima Nova Bold",
+                                  fontSize: 25,
+                                  color: Colors.black,
+                                  //color: Theme.of(context).accentColor,
+                                  fontWeight: FontWeight.bold),
                             ),
                             SizedBox(
                               height: 2,
                             ),
-                            Consumer<AppData>(
-                              builder: (_, a, child) {
-                                a.setQuote(data![a.getIndex]["text"]);
-                                return Text(
-                                  ' "${data![a.getIndex]["text"]}" ',
-                                  style: TextStyle(
-                                      fontFamily: "Proxima Nova",
-                                      fontSize: 15,
-                                      color: Colors.black,
-                                      //Theme.of(context).accentColor,
-                                      fontWeight: FontWeight.bold),
-                                );
-                              },
+                            Text(
+                              ' "${data![appdata.getIndex]["text"]}" ',
+                              style: TextStyle(
+                                  fontFamily: "Proxima Nova",
+                                  fontSize: 15,
+                                  color: Colors.black,
+                                  //Theme.of(context).accentColor,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),

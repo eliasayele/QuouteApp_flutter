@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:life_hacks/models/Persons.dart';
-import 'package:life_hacks/models/Quotes.dart';
 import 'package:life_hacks/providers/Providers.dart';
 import 'package:life_hacks/utils/database_helper.dart';
 import 'package:life_hacks/widgets/PictureCard.dart';
@@ -98,63 +97,88 @@ class CenterContainer extends StatelessWidget {
               padding: EdgeInsets.only(left: 23),
               // color: Colors.green.withOpacity(.1),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      db.saveQuote(Quotes(
-                        quote: index.getQuote!,
-                        owner: person.getName!,
-                      ));
-                      index.setFavourite(index.getIndex);
-                    },
-                    child: LikeButton(
-                      onTap: onLikeButtonTapped,
-                      size: buttonSize,
-                      circleColor: CircleColor(
-                          start: Color(0xff00ddff), end: Color(0xff0099cc)),
-                      bubblesColor: BubblesColor(
-                        dotPrimaryColor: Colors.red,
-                        dotSecondaryColor: Colors.redAccent,
+                  Container(
+                    height: 60,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Center(
+                      child: LikeButton(
+                        padding: const EdgeInsets.only(
+                            left: 3.0, right: 15.0, bottom: 15.0),
+                        onTap: onLikeButtonTapped,
+                        size: buttonSize,
+                        circleColor: CircleColor(
+                            start: Color(0xff00ddff), end: Color(0xff0099cc)),
+                        bubblesColor: BubblesColor(
+                          dotPrimaryColor: Colors.red,
+                          dotSecondaryColor: Colors.redAccent,
+                        ),
+                        likeBuilder: (bool isLiked) {
+                          return IconButton(
+                              onPressed: null,
+                              icon: Icon(
+                                Icons.favorite_outline_outlined,
+                                color: isLiked
+                                    ? Colors.deepPurpleAccent
+                                    : Colors.black,
+                                size: buttonSize,
+                              ));
+                        },
                       ),
-                      likeBuilder: (bool isLiked) {
-                        return Icon(
-                          Icons.favorite_outline_outlined,
-                          color:
-                              isLiked ? Colors.deepPurpleAccent : Colors.black,
-                          size: buttonSize,
-                        );
-                      },
                     ),
                   ),
-                  InkWell(
-                    highlightColor: Colors.redAccent,
-
-                    splashColor: Colors.blue,
-                    // When the user taps the button, show a snackbar.
-                    onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('Tap'),
-                      ));
-                    },
-                    child: IconButton(
-                        icon: Icon(
-                          Icons.navigate_before_outlined,
-                          color: Colors.black,
-                        ),
-                        onPressed: () {
-                          index.indexDown();
-                        }),
-                  ),
-                  IconButton(
-                      color: Colors.white,
-                      icon: Icon(
-                        Icons.navigate_next_outlined,
-                        color: Colors.black,
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Container(
+                      height: 60,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(25),
                       ),
-                      onPressed: () {
-                        index.indexUp();
-                      }),
+                      child: Row(
+                        children: [
+                          IconButton(
+                              icon: Icon(
+                                Icons.navigate_before_outlined,
+                                color: Colors.black,
+                              ),
+                              onPressed: () {
+                                index.indexDown();
+                              }),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Container(
+                      height: 60,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: Row(
+                        children: [
+                          IconButton(
+                              color: Colors.white,
+                              icon: Icon(
+                                Icons.navigate_next_outlined,
+                                color: Colors.black,
+                              ),
+                              onPressed: () {
+                                index.indexDown();
+                              }),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

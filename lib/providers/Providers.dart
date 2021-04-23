@@ -9,6 +9,15 @@ class AppData extends ChangeNotifier {
   List? _data;
   List<int>? _fav;
   String? quote;
+  int ind = -1;
+  int get getInd {
+    if (ind == 5) {
+      ind = -1;
+      return 5;
+    }
+    ind++;
+    return ind;
+  }
 
   ///store index of fav icons
   bool _isFavourite = false;
